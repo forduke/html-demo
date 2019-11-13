@@ -3,3 +3,16 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+h1 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #eeeeee;
+}
+
+#canvas {
+  display: block;
+  position: relative;
+  z-index: 1;
+}

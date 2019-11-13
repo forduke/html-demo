@@ -1,17 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>canvas</title>
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>canvas手写板</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+  <h1>canvas手写板</h1>
+  <canvas id="canvas"></canvas>
+  <script>
+    // 获取canvas,宽高赋值
+    let canvas = document.getElementById("canvas");
+    canvas.width = document.documentElement.clientWidth;
+    canvas.height = document.documentElement.clientHeight;
+    // 绘画功能
+    let ctx = canvas.getContext("2d");
+    // 样式
+    ctx.lineWidth = 4;
+    ctx.fillStyle = 'black';
+    ctx.lineCap = 'round';
 
+    // 是否手机触屏
+    let isTouchDevice = 'ontouchstart' in document.documentElement;
+    let last; // 最后的坐标点
+    let painting; // 鼠标手写状态
+    if (isTouchDevice) {
+      canvas.ontouchstart = (e) => {
+        let x = e.touches[0].clientX;
+        let y = e.touches[0].clientY;
+        last = [x, y];
+      }
+      canvas.ontouchmove = (e) => {
+        let x = e.touches[0].clientX;
+        let y = e.touches[0].clientY;
+        drawLine(last[0], last[1], x, y);
+        last = [x, y]
+      }
+    } else {
+      canvas.onmousedown = (e) => {
+        painting = true;
+        let x = e.clientX;
+        let y = e.clientY;
+        last = [x, y]
+      }
+      canvas.onmousemove = (e) => {
+        if (painting) {
+          let x = e.clientX;
+          let y = e.clientY;
+          drawLine(last[0], last[1], x, y);
+          last = [x, y]
+        }
+      }
+      canvas.onmouseup = (e) => {
+        painting = false;
+      }
+    }
+    // 绘制方法
+    function drawLine(x1, y1, x2, y2) {
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      ctx.fill();
+    };
+  </script>
 </body>
 
 </html>

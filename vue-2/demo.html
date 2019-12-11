@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+    .green {
+      color: #008000;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div>{{msg}}</div>
+  <div v-text="msg"></div>
+  <div v-html="redText"></div>
+  <div v-bind:class="green">一段有颜色的文字</div>
+  <div></div>
+  <button @click="add">点了{{num}}次</button>
+  <div>{{ date}}</div>
+  <div>{{ date | formatDate(date)}}</div>
+</div>
+<script>
+  let app = new Vue({
+    el: '#app',
+    data: {
+      msg: '渲染文本到页面',
+      redText: '<div style="color:#ff0000;">渲染html到页面</div>',
+      green: 'green',
+      num: 0,
+      date: new Date(),
+
+
+    },
+    mounted() {
+      let _this = this;
+      updateTime();
+      function updateTime() {
+        _this.date = new Date();
+        setTimeout(() => {
+          updateTime()
+        },1000);
+      }
+    },
+    methods: {
+      add() {
+        this.num = this.num + 1
+      }
+    },
+    filters: {
+      formatDate(date) {
+        const formatNumber = n => {
+          n = n.toString()
+          return n[1] ? n : '0' + n
+        }
+        const year = date.getFullYear()
+        const month = date.getMonth() + 1
+        const day = date.getDate()
+        const hour = date.getHours()
+        const minute = date.getMinutes()
+        const second = date.getSeconds()
+        return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+      }
+    }
+  })
+</script>
+</body>
+</html>

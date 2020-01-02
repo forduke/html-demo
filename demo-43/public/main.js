@@ -1,6 +1,6 @@
 getJSON.onclick = () => {
   const request = new XMLHttpRequest();
-  request.open('GET', "/5.json");
+  request.open('GET', "./5.json");
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
       const bool = JSON.parse(request.response)
@@ -11,20 +11,19 @@ getJSON.onclick = () => {
 };
 getXML.onclick = () => {
   const request = new XMLHttpRequest();
-  request.open('GET', "/4.xml");
+  request.open('GET', "./4.xml");
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
-      console.log(request.responseXML)
       const dom = request.responseXML;
       dom.getElementsByTagName('warning')[0].textContent
-      console.log(text.trim())
+      console.log('xml')
     }
   };
   request.send();
 };
 getHTML.onclick = () => {
   const request = new XMLHttpRequest();
-  request.open('GET', "/3.html");
+  request.open('GET', "./3.html");
   request.onload = () => {
     const div = document.createElement('div')
     div.innerHTML = request.response
@@ -37,7 +36,7 @@ getHTML.onclick = () => {
 };
 getJS.onclick = () => {
   const request = new XMLHttpRequest();
-  request.open('GET', "/2.js");
+  request.open('GET', "./2.js");
   request.onload = () => {
     const script = document.createElement('script')
     script.innerHTML = request.response
@@ -50,7 +49,7 @@ getJS.onclick = () => {
 };
 getCSS.onclick = () => {
   const request = new XMLHttpRequest();
-  request.open('GET', "/style.css");
+  request.open('GET', "./style.css");
   request.onreadystatechange = () => {
     if (request.status >= 200 && request.status < 300) {
       const style = document.createElement('style')

@@ -20,33 +20,28 @@ var server = http.createServer(function(request, response){
   /******** 从这里开始看，上面不要看 ************/
 
   console.log('有个傻子发请求过来啦！路径（带查询参数）为：' + pathWithQuery)
-  if(path === `/favicon.ico`){
-    return;
-  }
-  response.statusCode = 200
-  const filePath = path === '/' ? 'index.html' : path
-  const index = filePath.lastIndexOf('.')
-  const suffix = filePath.substring(index)
-  const fileTypes = {
-    '.html': 'text/html',
-    '.css': 'text/css',
-    '.js': 'text/javascript',
-    '.png': 'image/png',
-    '.jpg': 'image/jpg'
-  }
 
-  response.setHeader('Content-Type', `${fileTypes[suffix] || 'text/html'};charset=utf-8`)
-
-  let content
-  try{
-    content = fs.readFileSync(`./public${filePath}`)
-  }catch(error) {
-    content = '文件不存在'
+  if(path === '/index.html'){
+    response.statusCode = 200
+    response.setHeader('Content-Type', 'text/html;charset=utf-8')
+    response.write(fs.readFileSync('./public/index.html'))
+    response.end()
+  } else if(path === '/qian.js'){
+    response.statusCode = 200
+    response.setHeader('Content-Type', 'text/css;charset=utf-8')
+    response.write(fs.readFileSync('./public/qian.js'))
+    response.end()
+  } else if(path === '/x'){
+    response.statusCode = 200
+    response.setHeader('Content-Type', 'text/css;charset=utf-8')
+    response.write(`body{color: red;}`)
+    response.end()
+  } else {
     response.statusCode = 404
+    response.setHeader('Content-Type', 'text/html;charset=utf-8')
+    response.write(`你输入的路径不存在对应的内容`)
+    response.end()
   }
-
-  response.write(content)
-  response.end()
 
   /******** 代码结束，下面不要看 ************/
 })

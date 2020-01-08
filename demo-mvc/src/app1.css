@@ -1,0 +1,17 @@
+#app1 {
+  font-size: 30px;
+  padding: 20px;
+}
+.output {
+  padding: 20px;
+}
+.actions {
+  display: flex;
+  align-items: center;
+}
+button {
+  width: 60px;
+  height: 40px;
+  font-size: 26px;
+  margin: 0 10px;
+}
